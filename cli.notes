@@ -1,0 +1,39 @@
+@ Vitual Environment ---------------------------------------
+
+# Creation
+python -m venv env
+
+# Activation
+env/Scripts/activate
+
+# Deactivation
+deactivate
+
+@ packages listings ----------------------------------------
+
+# listing all the installed packages
+pip list
+
+@ packages installation ------------------------------------
+
+# Installing packages from a file 'requirements.txt'
+pip install -r requirements.txt
+
+# installing packages
+pip install <pkg1> <pkg2> ...
+
+# installing package of a specific version
+pip install <package-name>@<semantic-version>
+
+@ upgrading packages ---------------------------------------
+
+# upgrading pip
+python.exe -m pip install --upgrade pip
+
+@ packages uninstallation ----------------------------------
+
+# uninstalling packages
+pip uninstall <pkg1> <pkg2> ...
+
+# uninstalling packages bypassing the confirmations
+pip uninstall -y <pkg1> <pkg2> ...
