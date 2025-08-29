@@ -1,0 +1,20 @@
+# cloning the repo
+git clone https://github.com/akashprofile/makernova-project.git .
+
+# to see list of branches
+git branch
+
+# to create a branch
+git branch hammad
+
+# switching to the branch
+git switch hammad
+
+# to see the current branch, and stagin are and overall info
+git status
+
+# adding the file command-ran.txt in staging are
+git add command-ran.txt
+
+# to ensure our file is added into staging are
+git status
