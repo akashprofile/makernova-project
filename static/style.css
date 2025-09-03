@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-size: 16px;
+  font-family: Montserrat;
+}
+#side-bar {
+  display: flex;
+  flex-direction: column;
+  width: 1fr;
+  max-width: 28ch;
+  background-color: lightgrey;
+  box-sizing: border-box;
+  padding: 16px;
+}
+#side-bar>* {
+  background-color: salmon;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+#side-bar>:not(:last-child) {
+  margin-bottom: 16px;
+}
+#account-details-container {
+  background-color: white;
+  padding: 16px;
+}
+#account-details-container>* {
+  width: 100%;
+  /* background-color: lightcoral; */
+}
+#account-details-container>:not(:last-child) {
+  margin-bottom: 16px;
+}
+#account-avatar-and-name-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  column-gap: 16px;
+  height: 32px;
+}
+#account-avatar {
+  display: block;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}
+#account-name {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#account-email {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#sign-out-button {
+  display: block;
+  outline-style: none;
+  border-style: none;
+  background-color: lightgray;
+  font-size: inherit;
+  box-sizing: border-box;
+  padding: 0.5em;
+  border-radius: 8px;
+}
+#model-change-dropdown {
+  background-color: white;
+}
+#selected-model-name-container,
+#models-name-list>span {
+  height: 42px;
+  line-height: 42px;
+  display: block;
+  box-sizing: border-box;
+}
+#selected-model-name-container {
+  background-color: inherit;
+  border-bottom: 1px none grey;
+  position: relative;
+  display: flex;
+  /* justify-content: space-between; */
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  /* overflow: hidden; */
+}
+#selected-model-name {
+  overflow-x: ellipsis;
+  flex-basis: 1fr;
+  flex-grow: 1;
+  flex-shrink: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#selected-model-name-container>i {
+  font-size: 32px;
+  transition-property: transform;
+  transition-duration: 100ms;
+  transition-timing-function: linear;
+  display: block;
+  flex-basis: 32px;
+  justify-self: flex-end;
+  width: 32px;
+}
+#models-name-list {
+  height: 0;
+  overflow-y: auto;
+  transition-property: height;
+  transition-duration: 100ms;
+  transition-timing-function: linear;
+}
+#models-name-list>* {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#model-change-dropdown.open #models-name-list {
+  height: 200px;
+}
+#model-change-dropdown.open #selected-model-name-container {
+  border-bottom-style: solid;
+}
+#model-change-dropdown.open #selected-model-name-container>i {
+  transform: rotateZ(180deg);
+  transform-origin: center center;
+}
+#previous-chats-container {
+  padding: 16px;
+  display: block;
+  background-color: white;
+  height: 1fr;
+  overflow-y: auto;
+}
+#previous-chats-container .chats {
+  display: block;
+  border-bottom: 1px solid lightgrey;
+  box-sizing: border-box;
+  height: 3em;
+  line-height: 3em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#previous-chats-container .chats:hover {
+  background-color: whitesmoke;
+}
+#previous-chats-container .chats:not(:last-child) {
+  margin-bottom: 0;
+}
+#previous-chats-container .chats:last-child {
+  border-style: none;
+}
+#main {
+  width: 2fr;
+}

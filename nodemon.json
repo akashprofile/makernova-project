@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "./static",
+    "./server.js"
+  ],
+  "ext": "html,css,js"
+}

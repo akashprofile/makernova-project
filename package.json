@@ -1,6 +1,7 @@
 {
   "name": "makernova-project",
   "version": "1.0.0",
+  "type": "module",
   "description": "making our ai model accessible through web",
   "homepage": "https://github.com/akashprofile/makernova-project#readme",
   "bugs": {
