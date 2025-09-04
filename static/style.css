@@ -8,13 +8,14 @@ body {
   font-family: Montserrat;
 }
 #side-bar {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  width: 1fr;
-  max-width: 28ch;
+  min-width: 20ch;
   background-color: lightgrey;
   box-sizing: border-box;
   padding: 16px;
+  height: 100%;
 }
 #side-bar>* {
   background-color: salmon;
@@ -69,9 +70,12 @@ body {
   box-sizing: border-box;
   padding: 0.5em;
   border-radius: 8px;
+  cursor: pointer;
 }
 #model-change-dropdown {
   background-color: white;
+  cursor: pointer;
+  user-select: none;
 }
 #selected-model-name-container,
 #models-name-list>span {
@@ -122,6 +126,9 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+#models-name-list>:hover {
+  background-color: whitesmoke;
+}
 #model-change-dropdown.open #models-name-list {
   height: 200px;
 }
@@ -148,6 +155,7 @@ body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 #previous-chats-container .chats:hover {
   background-color: whitesmoke;
@@ -159,5 +167,71 @@ body {
   border-style: none;
 }
 #main {
-  width: 2fr;
+  flex: 3;
+  height: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  row-gap: 16px;
+  align-items: center;
+}
+#interactions-container {
+  /* background-color: aquamarine; */
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow-y: auto;
+}
+#interactions-container :not(:last-child) {
+  margin-bottom: 16px;
+}
+#interactions-container .prompt,
+#interactions-container .response {
+  display: block;
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 8px;
+}
+#interactions-container .prompt {
+  background-color: lightgrey;
+}
+#interactions-container .response {
+  background-color: inherit;
+  border: 1px solid black;
+}
+#writing-area-container {
+  background-color: salmon;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: lightgrey;
+  align-items: end;
+  column-gap: 16px;
+  width: 100%;
+}
+#writing-area {
+  resize: none;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 8em;
+  max-height: 15vh;
+  display: block;
+  outline-style: none;
+  border-style: none;
+  background-color: inherit;
+  font-family: inherit;
+  overflow-y: visible;
+}
+#send-prompt-button {
+  font-size: 32px;
+  background-color: black;
+  color: white;
+  border-radius: 50%;
+}
+#interactions-container,
+#writing-area-container {
+  max-width: 60ch;
 }

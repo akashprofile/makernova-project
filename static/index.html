@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./icons/material-symbols.css">
   <link rel="stylesheet" href="./fonts/fonts.css">
-  <script src="ui-interaction.js" defer="true"></script>
+  <script src="./ui-interaction.js" defer="true"></script>
+  <script src="./setup.js" defer="true"></script>
 </head>
 <body>
   <div id="side-bar">
@@ -19,20 +20,12 @@
       <div id="account-email">address@email.com</div>
       <button id="sign-out-button">Sign Out</button>
     </div>
-    <div id="model-change-dropdown" class="">
+    <div id="model-change-dropdown">
       <div id="selected-model-name-container">
-        <div id="selected-model-name">Artificial Neural Network</div>
+        <div id="selected-model-name" data-mkey="ann">Artificial Neural Network</div>
         <i class="ms-outlined">arrow_drop_down</i>
       </div>
-      <div id="models-name-list">
-        <span>Artificial Neural Network</span>
-        <span>Decision Tree Classifier</span>
-        <span>XGBoost</span>
-        <span>Linear Regression</span>
-        <span>Logistic Regression</span>
-        <span>K-Nearest Neighbour</span>
-        <span>K-Means</span>
-      </div>
+      <div id="models-name-list"></div>
     </div>
     <div id="previous-chats-container">
       <span class="chats">chat title 01 will be here text overlow ellipsis</span>
@@ -58,7 +51,16 @@
     </div>
   </div>
   <div id="main">
-    Main Content
+    <div id="interactions-container">
+      <div class="prompt">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi tenetur, nemo eius facere non esse totam. Odit magni libero eos. Ex aliquid iure culpa eos, id explicabo quos quis quas illo quaerat odio, consequatur tempore dolore quae dicta? Velit hic neque, ullam impedit itaque tempora sint ex! Ea, consectetur explicabo.</div>
+      <div class="response">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque quam sunt amet repudiandae hic fugiat porro nesciunt est vel sequi.</div>
+      <div class="prompt">Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur eius, quaerat unde officia, aliquid enim voluptates libero natus minus rem, quas autem iusto? Ullam rem vel mollitia nesciunt, doloremque aliquid?</div>
+      <div class="response">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi voluptatibus maxime, quibusdam laboriosam officia accusamus ea aut provident, voluptatum inventore explicabo harum at? Illum beatae corporis ratione nobis, iste harum tempora! Autem cum harum quia placeat aliquid dolorem natus et?</div>
+    </div>
+    <div id="writing-area-container">
+      <textarea name="writing-area" id="writing-area" placeholder="Discuss with me what's you health related problem ..."></textarea>
+      <i class="ms-outlined" id="send-prompt-button">arrow_upward</i>
+    </div>
   </div>
 </body>
 </html>

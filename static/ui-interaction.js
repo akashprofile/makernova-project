@@ -1,5 +1,6 @@
-const modelChangeRepo = document.getElementById("model-change-dropdown")
 
-modelChangeRepo.addEventListener("click", (e) => {
-  modelChangeRepo.classList.toggle("open")
-})
+const modelsList = document.getElementById("models-name-list")
+
+
+
+const writingArea = document.getElementById("writing-area")
