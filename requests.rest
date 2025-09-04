@@ -1,5 +1,7 @@
 POST http://localhost:3000/model
+Content-Type: "application/json"
 
 {
-  "message": "a message from the cliet side"
+  "prompt": "a message from the cliet side",
+  "modelKey": "dtc"
 }

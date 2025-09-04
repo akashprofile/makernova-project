@@ -1,6 +1,8 @@
 import express from "express"
 import http from "node:http"
 import path from "node:path"
+import { spawn } from "node:child_process"
+import { console } from "node:inspector"
 
 const app = express()
 let x;
@@ -28,8 +30,7 @@ app.use("/", express.static("./static", { setHeaders: setCustomHeaders }))
 // })
 
 app.post("/model", express.json(), (req, res, next) => {
-  console.log("request received")
-  console.log(req.body)
+  console.log("Request received")
   res.json({ "response": "sample response from server side to the client" })
 })
 
