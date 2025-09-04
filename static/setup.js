@@ -1,3 +1,4 @@
+/* START - handling the model changes */ 
 const models = new Map([
   ["ann", "Artificial Neural Network"],
   ["dtc", "Decision Tree Classifier"],
@@ -9,7 +10,6 @@ const models = new Map([
 ])
 
 const modelChangeDropdown = document.getElementById("model-change-dropdown")
-console.log(modelChangeDropdown)
 modelChangeDropdown.addEventListener("click", e => {
   modelChangeDropdown.classList.toggle("open")
   
@@ -18,6 +18,11 @@ const modelElements = new DocumentFragment()
 const selectedModelName = document.getElementById("selected-model-name")
 const modelsNameList = document.getElementById("models-name-list")
 
+const defaultModelKey = "ann" // to be set later
+
+selectedModelName.setAttribute("data-mkey", defaultModelKey)
+selectedModelName.textContent = models.get(defaultModelKey)
+
 for (const key of models.keys()) {
   const modelElement = document.createElement("span")
   modelElement.setAttribute("data-mkey", key)
@@ -25,11 +30,11 @@ for (const key of models.keys()) {
   modelElement.addEventListener("click", e => {
     const currentModel = selectedModelName.getAttribute("data-mkey")
     const choosedModel = modelElement.getAttribute("data-mkey")
-    if (choosedModel)
+    if (!choosedModel) return
     if (currentModel != choosedModel) {
       selectedModelName.setAttribute("data-mkey", choosedModel)
-      selectedModelName.textContent = models[choosedModel]
-      selectedModelName.dispatchEvent("model-change")
+      selectedModelName.textContent = models.get(choosedModel)
+      selectedModelName.dispatchEvent(new Event("model-change"))
     }
   })
   modelElements.appendChild(modelElement)
@@ -38,10 +43,76 @@ modelsNameList.append(modelElements)
 selectedModelName.addEventListener("model-change", e => {
   console.log("Model changed")
 })
+/* End - Handling the model change */
 
-const chats = []
 
-for (let i = 0; i <= 20; i++) {
+/* START - Showing the past chats by the user */
+const chats = [] // to be fetched from database
+for (let i = 0; i < 20; i++) {
   chats.push({ id: `random-id-${i}`, title: `some tile ${i} of chats` })
 }
 
+const previousChatsContainer = document.getElementById("previous-chats-container")
+
+const previousChats = new DocumentFragment()
+for (let chat of chats) {
+  const chatElement = document.createElement("span")
+  chatElement.setAttribute("data-id", chat.id)
+  chatElement.classList.add("chats")
+  chatElement.textContent = chat.title
+  previousChats.appendChild(chatElement)
+}
+previousChatsContainer.append(previousChats)
+/* END - Showing the past chats by the user */
+
+let chat = {
+  id: 459490,
+  title: "I am having headache",
+  useremail: "example@email.com",
+  interactions: [
+    { prompt: "promp 1", response: "response 1" },
+    { prompt: "promp 2", response: "response 2" },
+    { prompt: "promp 3", response: "response 3" },
+    { prompt: "promp 4", response: "response 4" },
+    { prompt: "promp 5", response: "response 5" },
+    { prompt: "promp 6", response: "response 6" },
+    { prompt: "promp 7", response: "response 7" }
+  ]
+}
+
+const interactionsContainer = document.getElementById("interactions-container")
+const interactionsFragment = new DocumentFragment()
+for (const interaction of chat.interactions) {
+  const prompt = document.createElement("div")
+  prompt.className = "prompt"
+  prompt.textContent = interaction.prompt
+  const response = document.createElement("div")
+  response.className = "response"
+  response.textContent = interaction.response
+  interactionsFragment.appendChild(prompt)
+  interactionsFragment.appendChild(response)
+}
+interactionsContainer.append(interactionsFragment)
+
+const writingArea = document.getElementById("writing-area")
+const sendPromptButton = document.getElementById("send-prompt-button")
+
+sendPromptButton.addEventListener("click", e => {
+  const prompt = writingArea.value;
+  const promptElement = document.createElement("div")
+  promptElement.className = "prompt"
+  promptElement.textContent = prompt
+  interactionsContainer.appendChild(promptElement)
+  // send the prompt from here
+  fetch("./model", { method: "GET" })
+    .then(res => {
+      console(res)
+    })
+    // .then(res => {
+    //   console.log(res)
+    //   const responeElement = document.createElement("div")
+    //   responeElement.className = "response"
+    //   responeElement.textContent = "Some output from the request"
+    // })
+  //writingArea.value = ""
+})

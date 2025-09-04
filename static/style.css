@@ -176,12 +176,14 @@ body {
   padding: 16px;
   row-gap: 16px;
   align-items: center;
+  /* background-color: salmon; */
 }
 #interactions-container {
   /* background-color: aquamarine; */
   flex-grow: 1;
   flex-shrink: 1;
   overflow-y: auto;
+  width: 100%;
 }
 #interactions-container :not(:last-child) {
   margin-bottom: 16px;
@@ -192,6 +194,8 @@ body {
   box-sizing: border-box;
   padding: 16px;
   border-radius: 8px;
+  flex-grow: 1;
+  width: 100%;
 }
 #interactions-container .prompt {
   background-color: lightgrey;
@@ -230,6 +234,14 @@ body {
   background-color: black;
   color: white;
   border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+}
+#send-prompt-button:hover {
+  background-color: dodgerblue;
+}
+#send-prompt-button:active {
+  background-color: #aaa;
 }
 #interactions-container,
 #writing-area-container {
