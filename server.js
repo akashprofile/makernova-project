@@ -27,6 +27,11 @@ app.use("/", express.static("./static", { setHeaders: setCustomHeaders }))
 //   res.send('<img src="./nodejs-logo.png">')
 // })
 
+app.post("/model", express.json(), (req, res, next) => {
+  console.log("request received")
+  console.log(req.body)
+  res.json({ "response": "sample response from server side to the client" })
+})
 
 const server = http.createServer(app)
 const PORT = process.env.PORT || 3000

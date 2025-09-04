@@ -71,12 +71,7 @@ let chat = {
   useremail: "example@email.com",
   interactions: [
     { prompt: "promp 1", response: "response 1" },
-    { prompt: "promp 2", response: "response 2" },
-    { prompt: "promp 3", response: "response 3" },
-    { prompt: "promp 4", response: "response 4" },
-    { prompt: "promp 5", response: "response 5" },
-    { prompt: "promp 6", response: "response 6" },
-    { prompt: "promp 7", response: "response 7" }
+    { prompt: "promp 2", response: "response 2" }
   ]
 }
 
@@ -104,15 +99,20 @@ sendPromptButton.addEventListener("click", e => {
   promptElement.textContent = prompt
   interactionsContainer.appendChild(promptElement)
   // send the prompt from here
-  fetch("./model", { method: "GET" })
-    .then(res => {
-      console(res)
+  fetch("./model", {
+    method: "POST",
+    body: JSON.stringify({ prompt: prompt }),
+    headers: {
+      "Content-Type": "application/json",
+    }
+  })
+    .then(res => res.json())
+    .then(obj => {
+      console.log(obj)
+      const responeElement = document.createElement("div")
+      responeElement.className = "response"
+      responeElement.textContent = obj.response
+      interactionsContainer.appendChild(responeElement)
     })
-    // .then(res => {
-    //   console.log(res)
-    //   const responeElement = document.createElement("div")
-    //   responeElement.className = "response"
-    //   responeElement.textContent = "Some output from the request"
-    // })
-  //writingArea.value = ""
+  writingArea.value = ""
 })
