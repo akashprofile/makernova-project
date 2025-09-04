@@ -98,21 +98,29 @@ sendPromptButton.addEventListener("click", e => {
   promptElement.className = "prompt"
   promptElement.textContent = prompt
   interactionsContainer.appendChild(promptElement)
-  // send the prompt from here
-  fetch("./model", {
+
+  // Send prompt to Gemini Model 1 endpoint
+  fetch("/gemini1", {
     method: "POST",
-    body: JSON.stringify({ prompt: prompt }),
-    headers: {
-      "Content-Type": "application/json",
-    }
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
   })
     .then(res => res.json())
-    .then(obj => {
-      console.log(obj)
-      const responeElement = document.createElement("div")
-      responeElement.className = "response"
-      responeElement.textContent = obj.response
-      interactionsContainer.appendChild(responeElement)
+    .then(data => {
+      // data.symptoms is the 333-length array
+      console.log("Gemini Model 1 output:", data.symptoms);
+      // Display the array in the UI
+      const responseElement = document.createElement("div")
+      responseElement.className = "response"
+      responseElement.style.whiteSpace = "pre-wrap"
+      responseElement.textContent = "Gemini Model 1 output (array):\n" + JSON.stringify(data.symptoms);
+      interactionsContainer.appendChild(responseElement);
     })
+    .catch(err => {
+      const errorElement = document.createElement("div")
+      errorElement.className = "response"
+      errorElement.textContent = "Error: " + err.message;
+      interactionsContainer.appendChild(errorElement);
+    });
   writingArea.value = ""
 })
