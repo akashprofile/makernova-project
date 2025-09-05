@@ -1,5 +1,5 @@
 {
-  "name": "makernova-project",
+  "name": "y",
   "version": "1.0.0",
   "type": "module",
   "description": "making our ai model accessible through web",
@@ -15,10 +15,12 @@
   "author": "Akash Kumar",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "dependencies": {
     "@google/genai": "^1.17.0",
+    "@google/generative-ai": "^0.24.1",
     "child_process": "^1.0.2",
     "csv-parser": "^3.2.0",
     "dotenv": "^17.2.2",

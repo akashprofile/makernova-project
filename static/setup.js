@@ -92,35 +92,58 @@ interactionsContainer.append(interactionsFragment)
 const writingArea = document.getElementById("writing-area")
 const sendPromptButton = document.getElementById("send-prompt-button")
 
-sendPromptButton.addEventListener("click", e => {
-  const prompt = writingArea.value;
+function sendPrompt() {
+  const prompt = writingArea.value.trim();
+  if (!prompt) return;
   const promptElement = document.createElement("div")
   promptElement.className = "prompt"
   promptElement.textContent = prompt
   interactionsContainer.appendChild(promptElement)
-
-  // Send prompt to Gemini Model 1 endpoint
-  fetch("/gemini1", {
+  // send the prompt from here
+  fetch("./model", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ prompt })
+    body: JSON.stringify({ prompt: prompt }),
+    headers: {
+      "Content-Type": "application/json",
+    }
   })
     .then(res => res.json())
-    .then(data => {
-      // data.symptoms is the 333-length array
-      console.log("Gemini Model 1 output:", data.symptoms);
-      // Display the array in the UI
-      const responseElement = document.createElement("div")
-      responseElement.className = "response"
-      responseElement.style.whiteSpace = "pre-wrap"
-      responseElement.textContent = "Gemini Model 1 output (array):\n" + JSON.stringify(data.symptoms);
-      interactionsContainer.appendChild(responseElement);
+    .then(obj => {
+      console.log(obj)
+      const responeElement = document.createElement("div")
+      responeElement.className = "response"
+      responeElement.textContent = obj.response
+      interactionsContainer.appendChild(responeElement)
     })
-    .catch(err => {
-      const errorElement = document.createElement("div")
-      errorElement.className = "response"
-      errorElement.textContent = "Error: " + err.message;
-      interactionsContainer.appendChild(errorElement);
-    });
   writingArea.value = ""
+}
+
+sendPromptButton.addEventListener("click", sendPrompt);
+
+writingArea.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    if (e.shiftKey) {
+      // Insert new line
+      const { selectionStart, selectionEnd, value } = writingArea;
+      writingArea.value = value.slice(0, selectionStart) + "\n" + value.slice(selectionEnd);
+      writingArea.selectionStart = writingArea.selectionEnd = selectionStart + 1;
+      e.preventDefault();
+    } else {
+      // Send prompt
+      sendPrompt();
+      e.preventDefault();
+    }
+  }
+});
+
+//for gemini model 1
+fetch("/gemini1", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt: userText })
 })
+  .then(res => res.json())
+  .then(data => {
+    // data.symptoms is the 333-length array
+    // Pass this to your model or display as needed
+  });
