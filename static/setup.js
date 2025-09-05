@@ -18,10 +18,10 @@ const modelElements = new DocumentFragment()
 const selectedModelName = document.getElementById("selected-model-name")
 const modelsNameList = document.getElementById("models-name-list")
 
-const defaultModelKey = "ann" // to be set later
+const currentModelKey = "dtc" // to be set later
 
-selectedModelName.setAttribute("data-mkey", defaultModelKey)
-selectedModelName.textContent = models.get(defaultModelKey)
+selectedModelName.setAttribute("data-mkey", currentModelKey)
+selectedModelName.textContent = models.get(currentModelKey)
 
 for (const key of models.keys()) {
   const modelElement = document.createElement("span")
@@ -98,21 +98,21 @@ sendPromptButton.addEventListener("click", e => {
   promptElement.className = "prompt"
   promptElement.textContent = prompt
   interactionsContainer.appendChild(promptElement)
+  console.log(currentModelKey)
   // send the prompt from here
-  fetch("./model", {
+  fetch("./run-model", {
     method: "POST",
-    body: JSON.stringify({ prompt: prompt }),
+    body: JSON.stringify({ prompt: prompt, modelKey: currentModelKey }),
     headers: {
       "Content-Type": "application/json",
     }
   })
     .then(res => res.json())
     .then(obj => {
-      console.log(obj)
       const responeElement = document.createElement("div")
       responeElement.className = "response"
       responeElement.textContent = obj.response
       interactionsContainer.appendChild(responeElement)
     })
-  writingArea.value = ""
+  // writingArea.value = ""
 })
