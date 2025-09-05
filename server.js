@@ -4,10 +4,21 @@ import path from "node:path"
 import dotenv from "dotenv"
 import startSubprocessesForModels, { implementedModels } from "./start-subprocesses-for-models.js"
 import userToGemini from "./user-to-gemini-1.js"
-const app = express()
-dotenv.config()
-let x;
+import { readFile } from 'node:fs/promises';
 
+dotenv.config()
+
+const filePath = new URL('./symptoms-array.json', import.meta.url);
+let symptomsArray
+readFile(filePath, { encoding: 'utf8' })
+  .then(stringData => {
+    symptomsArray = JSON.parse(stringData)
+  })
+  .catch(err => {
+    console.error(err)
+  })
+
+const app = express()
 function setCustomHeaders(res, filePath) {
   const ext = path.extname(filePath)
   const mimeTypes = {
@@ -65,7 +76,7 @@ app.post("/run-model", express.json(), async (req, res, next) => {
   //   outputPrompt = await model.getOutputPrompt()
   // }
   
-  res.json({ "response": inputForOurModel })
+  res.json({ "response": inputForOurModel + "\n\n" + inputForOurModel.length })
 })
 
 const server = http.createServer(app)
