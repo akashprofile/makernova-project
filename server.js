@@ -1,9 +1,11 @@
 import express from "express"
 import http from "node:http"
 import path from "node:path"
+import dotenv from "dotenv"
 import startSubprocessesForModels, { implementedModels } from "./start-subprocesses-for-models.js"
-
+import userToGemini from "./user-to-gemini-1.js"
 const app = express()
+dotenv.config()
 let x;
 
 function setCustomHeaders(res, filePath) {
@@ -35,19 +37,35 @@ app.post("/run-model", express.json(), async (req, res, next) => {
     res.status(404).json({ "response": "unknown model requested" })
     return
   }
-  const model = implementedModels.get(modelKey)
-  let inputPrompt, outputPrompt;
+  // Read symptoms from CSV header
+  const fs = await import('node:fs/promises');
+  const csvPath = "./dataset-partition-1.csv";
+  let symptomsArray = [];
   try {
-    inputPrompt = await model.getInputPrompt()
+    const csvData = await fs.readFile(csvPath, "utf-8");
+    const headerLine = csvData.split("\n")[0];
+    // Remove first two columns (Unnamed: 0, diseases)
+    symptomsArray = headerLine.split(",").slice(2);
+  } catch (err) {
+    console.error("Error reading symptoms from CSV:", err);
+    res.status(500).json({ "response": "Error reading symptoms list" });
+    return;
   }
-  catch (err) {
-    console.error(err)
-  }
-  if (inputPrompt.includes("Enter name:")) {
-    await model.giveInput(prompt)
-    outputPrompt = await model.getOutputPrompt()
-  }
-  res.json({ "response": outputPrompt })
+  const inputForOurModel = await userToGemini(prompt, symptomsArray);
+  // const model = implementedModels.get(modelKey)
+  // let inputPrompt, outputPromptFromOurModel, outputPrompt = "The model is not responding";
+  // try {
+  //   inputPrompt = await model.getInputPrompt()
+  // }
+  // catch (err) {
+  //   console.error(err)
+  // }
+  // if (inputPrompt.includes("Symptoms:")) {
+  //   await model.giveInput(inputForOurModel)
+  //   outputPrompt = await model.getOutputPrompt()
+  // }
+  
+  res.json({ "response": inputForOurModel })
 })
 
 const server = http.createServer(app)
