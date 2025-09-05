@@ -69,10 +69,7 @@ let chat = {
   id: 459490,
   title: "I am having headache",
   useremail: "example@email.com",
-  interactions: [
-    { prompt: "promp 1", response: "response 1" },
-    { prompt: "promp 2", response: "response 2" }
-  ]
+  interactions: []
 }
 
 const interactionsContainer = document.getElementById("interactions-container")
