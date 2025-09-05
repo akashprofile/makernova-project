@@ -92,7 +92,7 @@ interactionsContainer.append(interactionsFragment)
 const writingArea = document.getElementById("writing-area")
 const sendPromptButton = document.getElementById("send-prompt-button")
 
-sendPromptButton.addEventListener("click", e => {
+function sendPrompt() {
   const prompt = writingArea.value;
   const promptElement = document.createElement("div")
   promptElement.className = "prompt"
@@ -115,4 +115,16 @@ sendPromptButton.addEventListener("click", e => {
       interactionsContainer.appendChild(responeElement)
     })
   // writingArea.value = ""
+}
+
+sendPromptButton.addEventListener("click", sendPrompt)
+
+writingArea.addEventListener("keydown", function(e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    sendPrompt();
+    writingArea.value = "";
+  } else if (e.key === "Enter" && e.shiftKey) {
+    // Allow default: insert newline
+  }
 })

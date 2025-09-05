@@ -48,17 +48,15 @@ app.post("/run-model", express.json(), async (req, res, next) => {
     res.status(404).json({ "response": "unknown model requested" })
     return
   }
-  // Read symptoms from CSV header
+  // Read symptoms from symptoms-array.json
   const fs = await import('node:fs/promises');
-  const csvPath = "./dataset-partition-1.csv";
+  const symptomsPath = "./symptoms-array.json";
   let symptomsArray = [];
   try {
-    const csvData = await fs.readFile(csvPath, "utf-8");
-    const headerLine = csvData.split("\n")[0];
-    // Remove first two columns (Unnamed: 0, diseases)
-    symptomsArray = headerLine.split(",").slice(2);
+    const jsonData = await fs.readFile(symptomsPath, "utf-8");
+    symptomsArray = JSON.parse(jsonData);
   } catch (err) {
-    console.error("Error reading symptoms from CSV:", err);
+    console.error("Error reading symptoms from JSON:", err);
     res.status(500).json({ "response": "Error reading symptoms list" });
     return;
   }
