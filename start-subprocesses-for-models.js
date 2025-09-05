@@ -37,16 +37,17 @@ export default async function startSubprocessesForModels() {
         if (promptType === "input") {
           model.inputPrompt = promptText
           model._isWaitingForInput = true
+          break;
         }
         else if (promptType === "output") {
           model.outputPrompt = promptText
           model.inputPrompt = ""
           model._isReadyForOutput = true
+          break;
         }
         else {
-          if (model.status === "exit" || model.status === "close") continue
-          // uncontrollabe beacuse the 'exit' event is trigerred after 'data' event
-          console.error(model.status, Error("unsupported format"))
+          //avoid environment generated warnings
+          continue
         }
       }
     })

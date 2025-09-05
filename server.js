@@ -5,6 +5,7 @@ import dotenv from "dotenv"
 import startSubprocessesForModels, { implementedModels } from "./start-subprocesses-for-models.js"
 import userToGemini from "./user-to-gemini-1.js"
 import { readFile } from 'node:fs/promises';
+import test from "node:test"
 
 dotenv.config()
 
@@ -60,21 +61,27 @@ app.post("/run-model", express.json(), async (req, res, next) => {
     res.status(500).json({ "response": "Error reading symptoms list" });
     return;
   }
+  //const inputForOurModel = "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
   const inputForOurModel = await userToGemini(prompt, symptomsArray);
-  // const model = implementedModels.get(modelKey)
-  // let inputPrompt, outputPromptFromOurModel, outputPrompt = "The model is not responding";
-  // try {
-  //   inputPrompt = await model.getInputPrompt()
-  // }
-  // catch (err) {
-  //   console.error(err)
-  // }
-  // if (inputPrompt.includes("Symptoms:")) {
-  //   await model.giveInput(inputForOurModel)
-  //   outputPrompt = await model.getOutputPrompt()
-  // }
+  const testingCriteria = /^(?:[01],){327}[01]$/
+  if (!testingCriteria.test(inputForOurModel)) {
+    res.json({ "response": "Invalid input genrated by GenAI model" })
+    return
+  }
+  const model = implementedModels.get(modelKey)
+  let inputPrompt, outputPromptFromOurModel, outputPrompt = "The model is not responding";
+  try {
+    inputPrompt = await model.getInputPrompt()
+  }
+  catch (err) {
+    console.error(err)
+  }
+  if (inputPrompt.includes("Symptoms:")) {
+    await model.giveInput(inputForOurModel)
+    outputPrompt = await model.getOutputPrompt()
+  }
   
-  res.json({ "response": inputForOurModel + "\n\n" + inputForOurModel.length })
+  res.json({ "response": outputPrompt })
 })
 
 const server = http.createServer(app)
