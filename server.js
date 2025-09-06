@@ -69,19 +69,24 @@ app.post("/run-model", express.json(), async (req, res, next) => {
     return
   }
   const model = implementedModels.get(modelKey)
-  let inputPrompt, outputPromptFromOurModel, outputPrompt = "The model is not responding";
+  let inputPromptFromOurModel, outputFromOurModel = "The model is not responding", outputPrompt;
   try {
-    inputPrompt = await model.getInputPrompt()
+    inputPromptFromOurModel = await model.getInputPrompt()
   }
   catch (err) {
     console.error(err)
   }
-  if (inputPrompt.includes("Symptoms:")) {
+  if (inputPromptFromOurModel.includes("Symptoms:")) {
     await model.giveInput(inputForOurModel)
-    outputPrompt = await model.getOutputPrompt()
+    outputFromOurModel = await model.getOutputPrompt()
   }
-  
-  res.json({ "response": outputPrompt })
+  else
+    console.log({
+      debugMessage: "this input ptompt is not being handled",
+      inputPromptFromOurModel 
+    })
+
+  res.json({ "response": outputFromOurModel })
 })
 
 const server = http.createServer(app)

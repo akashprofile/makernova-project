@@ -32,21 +32,20 @@ export default async function startSubprocessesForModels() {
     })
     subprocess.stdout.on("data", data => {
       const prompts = data.toString().split("\r\n")
+      model._isReadyForOutput = false
+      model._isReadyForOutput = false
       for (const prompt of prompts) {
         const [promptType, promptText] = prompt.split(">")
         if (promptType === "input") {
           model.inputPrompt = promptText
           model._isWaitingForInput = true
-          break;
         }
         else if (promptType === "output") {
           model.outputPrompt = promptText
           model.inputPrompt = ""
           model._isReadyForOutput = true
-          break;
         }
         else {
-          //avoid environment generated warnings
           continue
         }
       }
