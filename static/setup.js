@@ -18,10 +18,11 @@ const modelElements = new DocumentFragment()
 const selectedModelName = document.getElementById("selected-model-name")
 const modelsNameList = document.getElementById("models-name-list")
 
-const currentModelKey = "dtc" // to be set later
+const DEFAUL_MODEL_KEY = "dtc" // to be set later
+let CURRENT_MODEL_KEY = DEFAUL_MODEL_KEY 
 
-selectedModelName.setAttribute("data-mkey", currentModelKey)
-selectedModelName.textContent = models.get(currentModelKey)
+selectedModelName.setAttribute("data-mkey", CURRENT_MODEL_KEY)
+selectedModelName.textContent = models.get(CURRENT_MODEL_KEY)
 
 for (const key of models.keys()) {
   const modelElement = document.createElement("span")
@@ -35,12 +36,14 @@ for (const key of models.keys()) {
       selectedModelName.setAttribute("data-mkey", choosedModel)
       selectedModelName.textContent = models.get(choosedModel)
       selectedModelName.dispatchEvent(new Event("model-change"))
+      CURRENT_MODEL_KEY = choosedModel
     }
   })
   modelElements.appendChild(modelElement)
 }
 modelsNameList.append(modelElements)
 selectedModelName.addEventListener("model-change", e => {
+  
   console.log("Model changed")
 })
 /* End - Handling the model change */
@@ -95,11 +98,11 @@ function sendPrompt() {
   promptElement.className = "prompt"
   promptElement.textContent = prompt
   interactionsContainer.appendChild(promptElement)
-  console.log(currentModelKey)
+  console.log(CURRENT_MODEL_KEY)
   // send the prompt from here
   fetch("./run-model", {
     method: "POST",
-    body: JSON.stringify({ prompt: prompt, modelKey: currentModelKey }),
+    body: JSON.stringify({ prompt: prompt, modelKey: CURRENT_MODEL_KEY }),
     headers: {
       "Content-Type": "application/json",
     }
