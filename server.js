@@ -4,8 +4,8 @@ import path from "node:path"
 import dotenv from "dotenv"
 import startSubprocessesForModels, { implementedModels } from "./start-subprocesses-for-models.js"
 import userToGemini from "./user-to-gemini-1.js"
+import getPrescription from "./get-prescription.js"
 import { readFile } from 'node:fs/promises';
-import test from "node:test"
 
 dotenv.config()
 
@@ -61,32 +61,29 @@ app.post("/run-model", express.json(), async (req, res, next) => {
     res.status(500).json({ "response": "Error reading symptoms list" });
     return;
   }
-  //const inputForOurModel = "1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0"
-  const inputForOurModel = await userToGemini(prompt, symptomsArray);
-  const testingCriteria = /^(?:[01],){327}[01]$/
-  if (!testingCriteria.test(inputForOurModel)) {
-    res.json({ "response": "Invalid input genrated by GenAI model" })
-    return
+  const geminiSymptomsFormat = await userToGemini(prompt, symptomsArray); // array
+  const inputForOurModel = geminiSymptomsFormat.join(",")  // our desired input
+
+  if (!(/(?:[01],){327}[01]/.test(inputForOurModel))) {
+    res.status(201).send({ GeminiGeneratedInvalidInput: inputForOurModel })
   }
+
   const model = implementedModels.get(modelKey)
-  let inputPromptFromOurModel, outputFromOurModel = "The model is not responding", outputPrompt;
+  let inputPrompt, outputFromOurModel = "The model is not responding";
   try {
-    inputPromptFromOurModel = await model.getInputPrompt()
+    inputPrompt = await model.getInputPrompt()
   }
   catch (err) {
     console.error(err)
   }
-  if (inputPromptFromOurModel.includes("Symptoms:")) {
+  if (inputPrompt.includes("Symptoms:")) {
     await model.giveInput(inputForOurModel)
     outputFromOurModel = await model.getOutputPrompt()
   }
-  else
-    console.log({
-      debugMessage: "this input ptompt is not being handled",
-      inputPromptFromOurModel 
-    })
+  const presentSymptoms = geminiSymptomsFormat.filter(value => (Number(value) === 1)? true : false)
+  const prescription = await getPrescription(Array.of(outputFromOurModel), presentSymptoms)
 
-  res.json({ "response": outputFromOurModel })
+  res.json({ "response": prescription })
 })
 
 const server = http.createServer(app)

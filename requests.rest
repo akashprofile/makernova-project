@@ -2,7 +2,7 @@ POST http://localhost:3000/run-model
 Content-Type: application/json
 
 {
-  "prompt": "a prompt for the model from the cliet side",
+  "prompt": "I am having cough, fever and dizziness",
   "modelKey": "dtc"
 }
 ###

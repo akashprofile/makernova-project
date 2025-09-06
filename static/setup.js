@@ -111,10 +111,12 @@ function sendPrompt() {
     .then(obj => {
       const responeElement = document.createElement("div")
       responeElement.className = "response"
-      responeElement.textContent = obj.response
-      interactionsContainer.appendChild(responeElement)
+      const formatted = marked.parse(obj.response);
+      responeElement.innerHTML = formatted;
+      interactionsContainer.appendChild(responeElement);
+      interactionsContainer.scrollTop = interactionsContainer.scrollHeight; // auto-scroll
     })
-  // writingArea.value = ""
+  writingArea.value = ""
 }
 
 sendPromptButton.addEventListener("click", sendPrompt)
