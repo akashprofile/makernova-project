@@ -3,7 +3,7 @@ import { spawn } from "node:child_process";
 
 export const implementedModels = new Map()
 
-const modelsToBeImplementedKeys = ["dtc"]
+const modelsToBeImplementedKeys = ["dtc", "ann", "xgb"]
 
 export default async function startSubprocessesForModels() {
   for (const modelKey of modelsToBeImplementedKeys) {

@@ -7,4 +7,4 @@ test2.js
 test2.py
 FilteredDataset.csv
 node_modules
-static/models/*.pkl
+models/*.pkl

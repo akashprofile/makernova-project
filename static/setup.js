@@ -2,11 +2,7 @@
 const models = new Map([
   ["ann", "Artificial Neural Network"],
   ["dtc", "Decision Tree Classifier"],
-  ["lor", "Logistic Regression"],
-  ["lir", "Linear Regression"],
-  ["svm", "Support Vector Machines"],
-  ["kms", "K Means"],
-  ["knn", "K Nearest Neighbour"]
+  ["xgb", "XG Boost"]
 ])
 
 const modelChangeDropdown = document.getElementById("model-change-dropdown")
