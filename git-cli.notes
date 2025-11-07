@@ -1,0 +1,176 @@
+# initialize current working directory as a git repository.
+git init
+
+# find out the status of local git repo.
+git status
+
+# create a new brach without switching to it.
+git branch <new-branch-name>
+
+# list of local branches only
+git branch
+
+# list of remote branches only
+git branch -r
+
+# list of all branches (local + remote)
+git branch -a
+
+# renaming currently checked out branch
+git branch -m <new-branch-name>
+
+# renaming a different branch (not currently checked out)
+git branch -m <old-branch-name> <new-branch-name>
+
+# switching to another branch
+git switch <branch-name>
+git checkout <branch-name>
+
+# create and switch to a new branch in a sigle command
+git switch -c <new-branch-name>
+git checkout -b <new-branch-name>
+
+# we can stage one or more files using following syntax
+git add <file1> <file2> ...
+
+# staging all the files new or changed at once
+git add .
+git add -A
+
+# staging all the files of current directory (except untracked files / sub-directories)
+git add -u
+
+# unstage one or more files (always works)
+git reset <file1> <file2> ...
+
+# unstage one or more files (works after first commit)
+git restore --staged <file1> <file2> ...
+git reset HEAD <file1> <file2> ...
+
+# unstaging all files at once (always works)
+git reset
+
+# unstage all files at once (works after first commit)
+git restore --staged
+git reset HEAD
+
+# comparing the difference between staged vs working.
+git diff
+
+# comparing the difference between staged vs last commit
+git diff --staged
+
+# committing all the staged files
+git commit -m "<message>"
+
+# commit all the staged files and open editor for message
+git commit
+
+# skip staging and commit all the tracked changes (modified and deleted only)
+git commit -am "<message>"
+
+# skip staging and commit all the tracked changes (modified and deleted only) and open editor for message
+git commit -a
+
+>>> NOTE: git treats renamed files as delete + add unless added into staging area
+
+# adding a remote repo
+git remote add <remote-name> <repo-git-url>
+
+# changing the url of an existing remote if needed.
+git remote set-url <remote-name> <new-git-url>
+
+# pushing changes to a remote
+git push <remote-name> <branch-name>
+
+# setting an upstream so that we can make subsequent pushes more easily
+git push --set-upstream <remote-name> <branch-name>  # First time
+git push                                             # Subseuent pushes
+
+>>> NOTE: pushes rejected, if some work is present on the remote repo and absent in local repo
+
+# cloning a github repo, a new directory will be created with same name as of remote repo, checks out to default branch
+git clone <repo-git-url>
+
+# cloning a github repo, into specified directory, checks out the default branch
+git clone <repo-git-url> <path>
+
+# fetching (downloading only) new data (commits, branches, tags) from a default remote.
+gti fetch
+
+# fetching changes from a specified remote.
+git fetch <remote-name>
+
+# fetching changes from a specified branch of a remote
+git fetch <remote-name> <branch-name>
+
+# compare local branch with fetched one.
+git log HEAD..origin/main
+
+# merging the content of another branch into current branch
+git merge <local-branch> 
+
+# merging changes from remote branch (need to fetch first) into current branch.
+git merge <remote-name>/<remote-branch>
+
+# pull latest changes from deafault remote into current upstream branch
+git pull = git fetch + git merge origin/main
+
+# pull from a specified remote and specified branch
+git pull <remote-name> <remote-branch>
+
+# pulling with rebase !! keeps a cleaner history by applying your commits on top of fetched changes
+git pull --rebase <remote-branch> <remote-branch>
+
+# re-applying commits from one branch on top of another to maintain a clean, linear history
+git rebase <base-branch>
+Example: git switch feature
+         git rebase main
+
+# rebase current branch oh top of other branch
+git rebase <other-branch>
+
+# cancel a rebase and roll back
+git rebase --abort
+
+# pull remote changes and rebase instead of merge
+git pull --rebase = git fetch + git rebase origin/your-branch
+
+>>> Temporary commits <<<
+Temporary commits with {git stash} store uncommitted changes without committing them to a branch. They're like snapshots you can set aside and apply later. Common use cases are as follows:
+
+* swithching branches with uncommitted changes in current branch
+git stash
+git switch  <another-branch>
+
+* cleaning up before pull or rebase
+git stash
+git pull --rebase
+git stash pop
+
+# stash tracked changes
+git stash
+
+# stash tracked + untracked changes
+git stash -u
+
+# stash tracked + untracked + ignored files too
+git stash -A
+
+# show all stashes
+git stash list
+
+# show diff of a stash
+git stash show -p stash@{<n>}
+
+# apply a stash and remove it
+git stash pop
+
+# apply a stash, not removing it from stash commits
+git stash apply
+
+# removing a specified stash
+git stash drop stash@{<n>}
+
+# delete all stashes
+git stash clear

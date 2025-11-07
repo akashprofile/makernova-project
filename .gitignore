@@ -8,3 +8,6 @@ test2.py
 FilteredDataset.csv
 node_modules
 models/*.pkl
+FilteredDataset.csv
+temp2.js
+node_modules
