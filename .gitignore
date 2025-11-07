@@ -1,5 +1,13 @@
 env
 temp.js
+temp.py
+test.js
+test.py
+test2.js
+test2.py
+FilteredDataset.csv
+node_modules
+models/*.pkl
 FilteredDataset.csv
 temp2.js
 node_modules

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Makernova UI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./images/nodejs-logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./icons/material-symbols.css">
+  <link rel="stylesheet" href="./fonts/fonts.css">
+  <script src="./setup.js" defer="true"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div id="side-bar">
+    <div id="account-details-container">
+      <div id="account-avatar-and-name-container">
+        <img id="account-avatar" src="./images/nodejs-logo.png">
+        <span id="account-name">Account name</span>
+      </div>
+      <div id="account-email">address@email.com</div>
+      <button id="sign-out-button">Sign Out</button>
+    </div>
+    <div id="model-change-dropdown">
+      <div id="selected-model-name-container">
+        <div id="selected-model-name" data-mkey="ann">Artificial Neural Network</div>
+        <i class="ms-outlined">arrow_drop_down</i>
+      </div>
+      <div id="models-name-list">
+      </div>
+    </div>
+    <div id="previous-chats-container">
+    </div>
+  </div>
+  <div id="main">
+    <div id="interactions-container">
+    </div>
+    <div id="writing-area-container">
+      <textarea name="writing-area" id="writing-area" placeholder="Discuss with me what's you health related problem ..."></textarea>
+      <i class="ms-outlined" id="send-prompt-button">arrow_upward</i>
+    </div>
+  </div>
+</body>
+</html>

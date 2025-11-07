@@ -1,0 +1,30 @@
+{
+  "name": "makernova-project",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "making our ai model accessible through web",
+  "homepage": "https://github.com/akashprofile/makernova-project#readme",
+  "bugs": {
+    "url": "https://github.com/akashprofile/makernova-project/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akashprofile/makernova-project.git"
+  },
+  "license": "ISC",
+  "author": "Akash Kumar",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@google/genai": "^1.17.0",
+    "@google/generative-ai": "^0.24.1",
+    "child_process": "^1.0.2",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
